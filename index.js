@@ -18,7 +18,29 @@ const tamanosBus = async (event) => {
         }
     }
 
-    vSizes.push(xMax); 
+    vSizes.push(xMax);
+    
+    // ******* Con esta logica se valida el resultado es correcto con el primer ciclo ********
+    // ******* Si hay fallos se corrige el resultado. 
+    
+    var suma = 0;
+    
+    for (var k = 0; k < vSizes.length; k++) {
+        for (var l = 0; l < grupos.length; l++) {
+            suma += grupos[l];
+            if (suma == vSizes[k]) {
+                suma = 0;
+                continue;
+            } else if ((suma > vSizes[k]) && (vSizes.length > 1)) {
+                vSizes.shift();
+                k = -1;
+                break;
+            }
+        }
+    }
+    
+    // ****************************************************************************************
+    
     vSizes = vSizes.join(','); // transformo nuevamente el array a string para poder presentarlo en el Response.
     
     const response = {
